@@ -1,0 +1,16 @@
+package br.com.moapetapp.data.local.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.datetime.Instant
+
+@Entity(tableName = "pets")
+data class PetEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val name: String,
+    val species: String,
+    val breed: String?,
+    val birthDate: Instant?,
+    val weight: Double?,
+)
