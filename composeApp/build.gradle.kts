@@ -138,9 +138,8 @@ dependencies {
     // Gera o código Room para Android
     add("kspAndroid", libs.room.compiler)
 
-    // Gera o código Room para iOS (simulador ARM64 — M1/M2/M3 Macs)
-    add("kspIosSimulatorArm64", libs.room.compiler)
-
-    // Gera o código Room para iOS (device real)
+    // Gera o código Room para iOS (simuladores e device real)
+    add("kspIosX64", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
 }

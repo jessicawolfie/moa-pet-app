@@ -1,5 +1,6 @@
 package br.com.moapetapp.data.local
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
@@ -15,6 +16,7 @@ import br.com.moapetapp.data.local.entity.PetEntity
     exportSchema = false
 )
 @TypeConverters(Converters::class)
+@ConstructedBy(MoaPetDatabaseConstructor::class)
 abstract class MoaPetDatabase : RoomDatabase() {
     
     abstract fun petDao(): PetDao
