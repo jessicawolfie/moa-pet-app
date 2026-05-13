@@ -1,0 +1,47 @@
+# ── Gradle ──
+.gradle/
+build/
+!gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ── Android ──
+*.apk
+*.ap_
+*.aab
+*.dex
+local.properties
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+google-services.json
+
+# ── iOS (CocoaPods) ──
+iosApp/Pods/
+iosApp/Podfile.lock
+iosApp/*.xcworkspace/
+iosApp/*.xcodeproj/xcuserdata/
+iosApp/*.xcodeproj/project.xcworkspace/xcuserdata/
+*.swiftpm
+.swiftpm/
+
+# ── KMP shared ──
+shared/build/
+shared/.kotlin/
+
+# ── IDEs ──
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Outros ──
+*.log
+*.hprof
+.kotlin/

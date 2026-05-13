@@ -1,0 +1,98 @@
+
+[versions]
+# ── Core ──
+kotlin              = "2.1.0"
+agp                 = "8.7.3"
+compose             = "1.7.1"
+composeMaterial3    = "1.3.1"
+composeCompiler     = "1.5.15"
+
+# ── Android SDK ──
+android-compileSdk  = "35"
+android-minSdk      = "24"
+android-targetSdk   = "35"
+
+# ── Arquitetura e DI ──
+koin                = "4.0.0"          # injecao de dependencia KMP
+lifecycle           = "2.8.0"          # ViewModel KMP
+
+# ── Persistencia ──
+room                = "2.7.0-alpha12"  # banco de dados (suporta KMP desde 2.7)
+ksp                 = "2.1.0-1.0.29"  # processador de anotacoes (Room precisa disso)
+datastore           = "1.1.1"          # preferencias do usuario
+
+# ── Networking (se precisar futuramente) ──
+ktor                = "3.0.1"          # HTTP client multiplataforma
+
+# ── Utilitarios KMP ──
+kotlinxDatetime     = "0.6.1"          # datas multiplataforma (sem java.util.Date)
+kotlinxSerialization = "1.7.3"        # serializar/deserializar objetos
+kotlinxCoroutines   = "1.9.0"
+
+# ── UI e Navegacao ──
+navigationCompose   = "2.8.0-alpha10"  # navegacao Compose KMP
+coilCompose         = "3.0.4"          # carregamento de imagens
+
+# ── Testes ──
+junit               = "4.13.2"
+kotlinTest          = "2.1.0"
+
+[libraries]
+# ── Kotlin e Coroutines ──
+kotlinx-datetime        = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-serialization   = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+
+# ── Compose Multiplatform ──
+compose-ui              = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
+compose-foundation      = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
+compose-material3       = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose" }
+compose-runtime         = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
+compose-navigation      = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+compose-uiTooling       = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose" }
+compose-uiToolingPreview = { module = "org.jetbrains.compose.components:components-ui-tooling-preview", version.ref = "compose" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose" }
+
+# ── AndroidX ──
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.9.3" }
+
+# ── Lifecycle (ViewModel KMP) ──
+lifecycle-viewmodel     = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-runtime       = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+
+# ── Koin — injecao de dependencia KMP ──
+koin-core               = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android            = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-compose            = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel  = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+# ── Room — banco de dados (agora com suporte KMP) ──
+room-runtime            = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler           = { module = "androidx.room:room-compiler", version.ref = "room" }  # via KSP
+
+# ── DataStore — preferencias ──
+datastore-preferences   = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+
+# ── Ktor Client (networking multiplataforma) ──
+ktor-client-core        = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp      = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }      # Android
+ktor-client-darwin      = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }      # iOS
+
+# ── Coil (carregamento de imagens) ──
+coil-compose            = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-ktor       = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilCompose" }
+
+# ── Testes ──
+kotlin-test             = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinTest" }
+junit                   = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+androidApplication      = { id = "com.android.application",          version.ref = "agp" }
+androidLibrary          = { id = "com.android.library",              version.ref = "agp" }
+kotlinMultiplatform     = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinCocoapods         = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+composeMultiplatform    = { id = "org.jetbrains.compose",            version = "1.7.1" }
+composeCompiler         = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinSerialization     = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp                     = { id = "com.google.devtools.ksp",          version.ref = "ksp" }
+room                    = { id = "androidx.room",                     version.ref = "room" }

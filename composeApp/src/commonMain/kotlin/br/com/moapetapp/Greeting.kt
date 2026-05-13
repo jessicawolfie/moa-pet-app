@@ -1,0 +1,9 @@
+package br.com.moapetapp
+
+class Greeting {
+    private val platform = getPlatform()
+
+    fun greet(): String {
+        return "Hello, ${platform.name}!"
+    }
+}
