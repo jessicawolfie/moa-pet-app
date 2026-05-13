@@ -2,6 +2,7 @@ package br.com.moapetapp.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import br.com.moapetapp.data.local.dao.PetDao
 import br.com.moapetapp.data.local.entity.PetEntity
@@ -11,7 +12,7 @@ import br.com.moapetapp.data.local.entity.PetEntity
         PetEntity::class
     ],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class MoaPetDatabase : RoomDatabase() {
@@ -21,4 +22,9 @@ abstract class MoaPetDatabase : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = "moapetapp.db"
     }
+}
+
+@Suppress("NO_ACTUAL_FOR_EXPECT")
+expect object MoaPetDatabaseConstructor : RoomDatabaseConstructor<MoaPetDatabase> {
+    override fun initialize(): MoaPetDatabase
 }

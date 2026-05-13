@@ -1,7 +1,6 @@
 package br.com.moapetapp.data.local
 
 import androidx.room.TypeConverter
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
@@ -25,6 +24,7 @@ class Converters {
     }
 
     // Converte Int para LocalTime
+    @TypeConverter
     fun toLocalTime(secondOfDay: Int?): LocalTime? {
         return secondOfDay?.let { LocalTime.fromSecondOfDay(it) }
     }
