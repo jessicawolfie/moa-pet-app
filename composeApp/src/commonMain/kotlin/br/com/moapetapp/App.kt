@@ -13,15 +13,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.resources.painterResource
-
 import moapetapp.composeapp.generated.resources.Res
 import moapetapp.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
+    // Inicializa o Koin na primeira composição
+    LaunchedEffect(Unit) {
+        MoaPetApplication.initialize()
+    }
+    
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(
