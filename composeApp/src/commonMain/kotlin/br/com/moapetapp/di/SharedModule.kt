@@ -3,7 +3,10 @@ package br.com.moapetapp.di
 import androidx.room.RoomDatabase
 import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
+import br.com.moapetapp.data.repository.PetRepositoryImpl
+import br.com.moapetapp.data.repository.PetRepository
 import org.koin.dsl.module
+import kotlin.math.sin
 
 val domainModule = module {
     // Use Cases vão aqui. Exemplo futuro:
@@ -16,9 +19,15 @@ val dataModule = module {
             .fallbackToDestructiveMigration(dropAllTables = true)  // Por enquanto, em dev
             .build()
     }
-    // Futuramente aqui virão:
-    // single { get<MoaPetDatabase>().petDao() }
-    // single<PetRepository> { PetRepositoryImpl(dao = get()) }
+    // DAOs
+    single { get<MoaPetDatabase>().petDao() }
+
+    // Repositories
+    // PetRepository registrado pela interface (não pela classe)
+    // Isso permite trocar a implementação em testes sem alterar quem consome
+    single<PetRepository> {
+        PetRepositoryImpl(petDao = get())
+    }
 }
 
 val presentationModule = module {
