@@ -29,6 +29,7 @@ datastore           = "1.1.1"          # preferencias do usuario
 ktor                = "3.0.1"          # HTTP client multiplataforma
 
 # ── Utilitarios KMP ──
+uuid                = "0.8.4"          # UUID multiplataforma
 kotlinxDatetime     = "0.6.1"          # datas multiplataforma (sem java.util.Date)
 kotlinxSerialization = "1.7.3"        # serializar/deserializar objetos
 kotlinxCoroutines   = "1.9.0"
@@ -42,7 +43,8 @@ junit               = "4.13.2"
 kotlinTest          = "2.1.0"
 
 [libraries]
-# ── Kotlin e Coroutines ──
+# ── Utilitarios KMP ──
+uuid                    = { module = "com.benasher44:uuid", version.ref = "uuid" }
 kotlinx-datetime        = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization   = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }

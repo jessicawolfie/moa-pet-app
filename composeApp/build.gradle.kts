@@ -61,6 +61,7 @@ kotlin {
             implementation(libs.datastore.preferences)
 
             // Kotlinx
+            implementation(libs.uuid)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization)
             implementation(libs.kotlinx.coroutines.core)

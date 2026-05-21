@@ -5,12 +5,17 @@ import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
 import br.com.moapetapp.data.repository.PetRepositoryImpl
 import br.com.moapetapp.data.repository.PetRepository
+import br.com.moapetapp.domain.usecase.pet.*
 import org.koin.dsl.module
 import kotlin.math.sin
 
 val domainModule = module {
-    // Use Cases vão aqui. Exemplo futuro:
-    // single { AddPetUseCase(repository = get()) }
+    // Use Cases - regra de negócio
+    factory { AddPetUseCase(repository = get()) }
+    factory { UpdatePetUseCase(repository = get()) }
+    factory { DeletePetUseCase(repository = get()) }
+    factory { GetAllPetsUseCase(repository = get()) }
+    factory { GetPetByIdUseCase(repository = get()) }
 }
 
 val dataModule = module {
