@@ -18,18 +18,13 @@ import moapetapp.composeapp.generated.resources.Res
 import moapetapp.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinContext
 
 @Composable
 @Preview
 fun App() {
-    // Inicializa o Koin na primeira composição
-    LaunchedEffect(Unit) {
-        MoaPetApplication.initialize()
-    }
-    
-    MaterialTheme {
+    KoinContext {
         MaterialTheme {
-            // NavHost gerencia todas as telas do app
             MoaPetNavHost()
         }
     }

@@ -6,12 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import br.com.moapetapp.di.initKoin
+import org.koin.android.ext.koin.androidContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        // Inicializa o Koin com o contexto do Android
+        initKoin {
+            androidContext(this@MainActivity.applicationContext)
+        }
+
+        enableEdgeToEdge()
         setContent {
             App()
         }

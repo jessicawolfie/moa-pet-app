@@ -1,13 +1,14 @@
+// composeApp/src/commonMain/kotlin/br/com/moapetapp/ui/Navigation.kt
+
 package br.com.moapetapp.ui
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import br.com.moapetapp.ui.pet.PetListScreen
 
 /**
  * Configura o grafo de navegação do app.
@@ -15,7 +16,6 @@ import androidx.navigation.toRoute
  * @param navController Controlador de navegação. Se não fornecido, cria um novo.
  * @param startDestination Tela inicial do app. Padrão: PetList.
  */
-
 @Composable
 fun MoaPetNavHost(
     navController: NavHostController = rememberNavController(),
@@ -24,12 +24,16 @@ fun MoaPetNavHost(
     NavHost(
         navController = navController,
         startDestination = startDestination
-    ){
-        // Tela: lista de pets
+    ) {
+        // Tela: Lista de pets
         composable<Screen.PetList> {
-            PlaceholderScreen(
-                title = "Lista de Pets",
-                onNavigate = { navController.navigate(Screen.PetForm()) }
+            PetListScreen(
+                onPetClick = { petId ->
+                    navController.navigate(Screen.PetDetail(petId.hashCode().toLong()))
+                },
+                onAddPetClick = {
+                    navController.navigate(Screen.PetForm())
+                }
             )
         }
 
@@ -39,7 +43,7 @@ fun MoaPetNavHost(
 
             PlaceholderScreen(
                 title = if (args.petId == null) "Novo Pet" else "Editar Pet",
-                onNavigate = { navController.popBackStack()}
+                onNavigate = { navController.popBackStack() }
             )
         }
 
@@ -49,7 +53,7 @@ fun MoaPetNavHost(
 
             PlaceholderScreen(
                 title = "Pet #${args.petId}",
-                onNavigate = { navController.popBackStack()}
+                onNavigate = { navController.popBackStack() }
             )
         }
     }
