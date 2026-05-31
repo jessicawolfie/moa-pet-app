@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import br.com.moapetapp.ui.pet.PetListScreen
+import br.com.moapetapp.ui.pet.PetFormScreen
 
 /**
  * Configura o grafo de navegação do app.
@@ -41,11 +42,12 @@ fun MoaPetNavHost(
         composable<Screen.PetForm> { backStackEntry ->
             val args = backStackEntry.toRoute<Screen.PetForm>()
 
-            PlaceholderScreen(
-                title = if (args.petId == null) "Novo Pet" else "Editar Pet",
-                onNavigate = { navController.popBackStack() }
+            PetFormScreen(
+                petId = args.petId,
+                onNavigateBack = { navController.popBackStack() }
             )
         }
+
 
         // Tela: Detalhes de um pet
         composable<Screen.PetDetail> { backStackEntry ->

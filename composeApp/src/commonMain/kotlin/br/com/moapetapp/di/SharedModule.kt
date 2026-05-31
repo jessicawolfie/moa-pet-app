@@ -10,7 +10,7 @@ import org.koin.dsl.module
 import kotlin.math.sin
  import br.com.moapetapp.presentation.pet.PetListViewModel
 import org.koin.core.module.dsl.viewModelOf
-
+import br.com.moapetapp.ui.pet.PetFormViewModel
 val domainModule = module {
     // Use Cases - regra de negócio
     factory { AddPetUseCase(repository = get()) }
@@ -39,6 +39,7 @@ val dataModule = module {
 
 val presentationModule = module {
     viewModelOf(::PetListViewModel)
+    viewModelOf(::PetFormViewModel)
 }
 
 val sharedModules = listOf(
