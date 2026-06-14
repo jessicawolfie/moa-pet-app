@@ -1,16 +1,18 @@
 package br.com.moapetapp.di
 
-import androidx.room.RoomDatabase
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import kotlinx.coroutines.Dispatchers
 import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
 import br.com.moapetapp.data.repository.PetRepositoryImpl
 import br.com.moapetapp.data.repository.PetRepository
 import br.com.moapetapp.domain.usecase.pet.*
 import org.koin.dsl.module
-import kotlin.math.sin
- import br.com.moapetapp.presentation.pet.PetListViewModel
+import br.com.moapetapp.presentation.pet.PetListViewModel
 import org.koin.core.module.dsl.viewModelOf
 import br.com.moapetapp.ui.pet.PetFormViewModel
+import kotlinx.coroutines.IO
+
 val domainModule = module {
     // Use Cases - regra de negócio
     factory { AddPetUseCase(repository = get()) }
@@ -23,6 +25,8 @@ val domainModule = module {
 val dataModule = module {
     single<MoaPetDatabase> {
         getDatabaseBuilder()
+            .setDriver(BundledSQLiteDriver())
+            .setQueryCoroutineContext(Dispatchers.IO)
             .fallbackToDestructiveMigration(dropAllTables = true)  // Por enquanto, em dev
             .build()
     }
