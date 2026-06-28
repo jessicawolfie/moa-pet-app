@@ -10,32 +10,53 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.moapetapp.core.image.rememberImagePicker
 import br.com.moapetapp.domain.model.Species
-import br.com.moapetapp.ui.pet.PetFormEvent
-import br.com.moapetapp.ui.pet.PetFormViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
+import org.koin.compose.koinInject
+import br.com.moapetapp.core.image.ImageStorage
 
 /**
  * Tela de formulário de pet (criar/editar)
  *
- * @param petIt UUID do pet a editar (null = criar novo)
+ * @param petId UUID do pet a editar (null = criar novo)
  * @param onNavigateBack Callback para voltar
  * @param viewModel ViewlModel inteado via koin
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetFormScreen(
-    petId: Long? = null,
+    petId: String? = null,
     onNavigateBack: () -> Unit,
     viewModel: PetFormViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val imagePicker = rememberImagePicker { bytes ->
+        viewModel.onImagePicked(bytes)
+    }
+
+    val imageStorage = koinInject<ImageStorage>()
+
     // Estado do dropdown de espécie
     var speciesExpanded by remember { mutableStateOf(false) }
+
+    // Carrega o pet se estiver em modo edição
+    LaunchedEffect(petId) {
+        if (petId != null) {
+            viewModel.loadPet(petId)
+        }
+    }
 
     // Navega de volta quando salvar com sucesso
     LaunchedEffect(uiState.isSaved) {
@@ -88,6 +109,31 @@ fun PetFormScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Avatar do pet
+            val photoModel = uiState.photoFileName?.let {
+                "file://" + imageStorage.absolutePathFor(it)
+            }
+            Box(
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .align(Alignment.CenterHorizontally)
+                    .clickable { imagePicker.launch() },
+                contentAlignment = Alignment.Center
+            ) {
+                if (photoModel != null) {
+                    AsyncImage(
+                        model = photoModel,
+                        contentDescription = "Foto do pet",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Text(if (uiState.isEditMode) "Add Foto" else "Add Foto")
+                }
+            }
+
             // Campo: nome
             OutlinedTextField(
                 value = uiState.name,
@@ -158,7 +204,7 @@ fun PetFormScreen(
             )
 
             Text(
-                text = "Foto e data de nascimento serão adicionados em breve.",
+                text = "Data de nascimento será adicionada em breve",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

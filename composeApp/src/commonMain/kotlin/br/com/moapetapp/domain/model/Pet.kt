@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.days
  * @property breed Raça específica (ex: "Golden Retriever", "Persa"). Opcional.
  * @property birthDate Data de nascimento. Opcional — nem sempre o tutor sabe.
  * @property weightKg Peso em quilogramas. Opcional.
- * @property photoPath Caminho da foto no armazenamento local. Opcional.
+ * @property photoFileName Nome do arquivo da foto no armazenamento local
  */
 
 data class Pet (
@@ -25,7 +25,7 @@ data class Pet (
     val breed: String?,
     val birthDate: LocalDate?,
     val weightKg: Double?,
-    val photoPath: String?
+    val photoFileName: String?
 ) {
     // Propriedades computadas - calculadas dinamicamente, não armazenada
 

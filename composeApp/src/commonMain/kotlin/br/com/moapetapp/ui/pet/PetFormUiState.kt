@@ -10,7 +10,7 @@ import br.com.moapetapp.domain.model.Species
  * @property breed Raça digitada
  * @property birthDateMillis Data de nascimento em epochDays (null = não selecionada)
  * @property weight Peso digitado (String para o input)
- * @property photoPath Caminho da foto (null = sem foto)
+ * @property photoFileName Caminho da foto (null = sem foto)
  * @property nameError Mensagem de erro do nome (null = sem erro)
  * @property weightError Mensagem de erro do peso (null = sem erro)
  * @property isSaving true enquanto salva (desabilita botão)
@@ -24,7 +24,7 @@ data class PetFormUiState(
     val breed: String = "",
     val birthDateEpochDays: Int? = null,
     val weight: String = "",
-    val photoPath: String? = null,
+    val photoFileName: String? = null,
     val nameError: String? = null,
     val weightError: String? = null,
     val isSaving: Boolean = false,

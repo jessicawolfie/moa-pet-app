@@ -15,7 +15,7 @@ fun PetEntity.toDomain(): Pet {
         breed = this.breed,
         birthDate = this.birthDate,
         weightKg = this.weightKg,
-        photoPath = this.photoPath
+        photoFileName = this.photoFileName
     )
 }
 
@@ -30,7 +30,7 @@ fun Pet.toEntity(): PetEntity {
         // LocalDate será convertido para Long pelo TypeCOnverter
         birthDate = this.birthDate,
         weightKg = this.weightKg,
-        photoPath = this.photoPath
+        photoFileName = this.photoFileName
     )
 }
 

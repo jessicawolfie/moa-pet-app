@@ -13,7 +13,7 @@ import kotlinx.datetime.LocalDate
  * @property breed Raça (opcional)
  * @property birthDate Data de nascimento como Long (epochDays via TypeConverter)
  * @property weightKg Peso em kg (opcional)
- * @property photoPath Caminho local da foto (opcional)
+ * @property photoFileName Nome do arquivo da foto no armazenamento local
  */
 
 @Entity(tableName = "pets")
@@ -25,5 +25,5 @@ data class PetEntity(
     val breed: String?,
     val birthDate: LocalDate?,
     val weightKg: Double?,
-    val photoPath: String?,
+    val photoFileName: String?,
 )

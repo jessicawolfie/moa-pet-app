@@ -1,6 +1,8 @@
 package br.com.moapetapp.di
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import br.com.moapetapp.core.image.ImageStorage
+import br.com.moapetapp.core.image.provideImageStorage
 import kotlinx.coroutines.Dispatchers
 import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
@@ -39,6 +41,9 @@ val dataModule = module {
     single<PetRepository> {
         PetRepositoryImpl(petDao = get())
     }
+
+    // Armazenamento de imagens
+    single<ImageStorage> { provideImageStorage() }
 }
 
 val presentationModule = module {

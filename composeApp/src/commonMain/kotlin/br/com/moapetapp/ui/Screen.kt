@@ -22,7 +22,7 @@ sealed interface Screen {
      * @param petId ID do pet a exibir
     */
     @Serializable
-    data class PetDetail(val petId: Long) : Screen
+    data class PetDetail(val petId: String) : Screen
 
     /**
     * Tela de criaçao/ediçao de pet
@@ -31,22 +31,22 @@ sealed interface Screen {
      * @param petId ID do pet a editar. Null = criar novo pet
     */
     @Serializable
-    data class PetForm(val petId: Long? = null) : Screen
+    data class PetForm(val petId: String? = null) : Screen
 
     /**
     * Tela de lista de vacinas de um pet
-    * Rota: "vacine_list/{pet˜Id}"
+    * Rota: "vacine_list/{petId}"
     */
     @Serializable
-    data class VaccineList(val petId: Long) : Screen
+    data class VaccineList(val petId: String) : Screen
     /**
      * Tela de criação/edição de vacina.
      * Rota: "vaccine_form/{petId}?vaccineId={vaccineId}"
      */
     @Serializable
     data class VaccineForm(
-        val petId: Long,
-        val vaccineId: Long? = null
+        val petId: String,
+        val vaccineId: String? = null
     ) : Screen
 
     /**
@@ -54,19 +54,19 @@ sealed interface Screen {
      * Rota: "meal/{petId}"
      */
     @Serializable
-    data class MealScreen(val petId: Long) : Screen
+    data class MealScreen(val petId: String) : Screen
 
     /**
      * Tela de medicações de um pet.
      * Rota: "medication_list/{petId}"
      */
     @Serializable
-    data class MedicationList(val petId: Long) : Screen
+    data class MedicationList(val petId: String) : Screen
 
     /**
      * Tela de calendário de observações.
      * Rota: "calendar/{petId}"
      */
     @Serializable
-    data class CalendarScreen(val petId: Long) : Screen
+    data class CalendarScreen(val petId: String) : Screen
 }

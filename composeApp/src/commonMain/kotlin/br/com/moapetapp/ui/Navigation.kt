@@ -30,7 +30,7 @@ fun MoaPetNavHost(
         composable<Screen.PetList> {
             PetListScreen(
                 onPetClick = { petId ->
-                    navController.navigate(Screen.PetDetail(petId.hashCode().toLong()))
+                    navController.navigate(Screen.PetDetail(petId))
                 },
                 onAddPetClick = {
                     navController.navigate(Screen.PetForm())

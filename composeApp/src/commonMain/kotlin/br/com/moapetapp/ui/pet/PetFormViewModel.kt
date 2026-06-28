@@ -1,7 +1,9 @@
 package br.com.moapetapp.ui.pet
 
+import com.benasher44.uuid.uuid4
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.moapetapp.core.image.ImageStorage
 import br.com.moapetapp.domain.model.Pet
 import br.com.moapetapp.domain.usecase.pet.AddPetUseCase
 import br.com.moapetapp.domain.usecase.pet.GetPetByIdUseCase
@@ -22,7 +24,8 @@ import kotlinx.datetime.LocalDate
 class PetFormViewModel(
     private val addPetUseCase: AddPetUseCase,
     private val updatePetUseCase: UpdatePetUseCase,
-    private val getPetByIdUseCase: GetPetByIdUseCase
+    private val getPetByIdUseCase: GetPetByIdUseCase,
+    private val imageStorage: ImageStorage,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow((PetFormUiState()))
@@ -47,7 +50,7 @@ class PetFormViewModel(
                     breed = pet.breed ?: "",
                     birthDateEpochDays = pet.birthDate?.toEpochDays(),
                     weight = pet.weightKg.toString() ?: "",
-                    photoPath = pet.photoPath,
+                    photoFileName = pet.photoFileName,
                     isEditMode = true
                 )
             }
@@ -82,6 +85,22 @@ class PetFormViewModel(
         }
     }
 
+    /**
+     * Recebe os bytes da foto escolhida (já comprimida em JPEG pelo picker da plataforma),
+     * grava no armazenamento privado e guarda o nome do arquivo no state.
+     * 
+     * O nome é um UUID próprio da foto, independente do id do pet,
+     * que só é gerado no save (pelo AddPetUseCase) ao criar.
+     */
+    fun onImagePicked(bytes: ByteArray) {
+        viewModelScope.launch { 
+            val fileName = "${uuid4()}.jpg"
+            imageStorage.save(bytes, fileName)
+            _uiState.value = _uiState.value.copy(photoFileName = fileName)
+        }
+    }
+    
+
     // Valida e salva o pet
     private fun savePet() {
         val state = _uiState.value
@@ -111,7 +130,7 @@ class PetFormViewModel(
             breed =  state.breed.trim().ifBlank { null },
             birthDate = state.birthDateEpochDays?.let { LocalDate.fromEpochDays(it)},
             weightKg = weightValue,
-            photoPath = state.photoPath
+            photoFileName = state.photoFileName
         )
 
         // Salva (add ou update conforme o modo)
