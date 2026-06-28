@@ -2,8 +2,6 @@ package br.com.moapetapp.data.repository
 
 import br.com.moapetapp.domain.model.Pet
 import kotlinx.coroutines.flow.Flow
-import moapetapp.composeapp.generated.resources.Res
-import org.koin.core.scope.ScopeID
 
 // Repositório de Pets
 // Define operações de acesso aos dados de pets sem revelar a fonte

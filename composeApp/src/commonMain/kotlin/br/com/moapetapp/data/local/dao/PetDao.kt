@@ -20,7 +20,7 @@ interface PetDao {
 
     // Retorna um pet específico por ID
     @Query("SELECT * FROM pets WHERE id = :id")
-    suspend fun getPetId(id: String): PetEntity?
+    suspend fun getPetById(id: String): PetEntity?
 
     // Insere um novo pet no banco
     @Insert(onConflict = OnConflictStrategy.REPLACE)

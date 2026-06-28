@@ -11,7 +11,14 @@ import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
 import br.com.moapetapp.data.repository.PetRepositoryImpl
 import br.com.moapetapp.data.repository.PetRepository
+import br.com.moapetapp.data.repository.VaccineRepository
+import br.com.moapetapp.data.repository.VaccineRepositoryImpl
 import br.com.moapetapp.domain.usecase.pet.*
+import br.com.moapetapp.domain.usecase.vaccine.AddVaccineUseCase
+import br.com.moapetapp.domain.usecase.vaccine.DeleteVaccineUseCase
+import br.com.moapetapp.domain.usecase.vaccine.GetVaccineByIdUseCase
+import br.com.moapetapp.domain.usecase.vaccine.GetVaccineForPetUseCase
+import br.com.moapetapp.domain.usecase.vaccine.UpdateVaccineUseCase
 import org.koin.dsl.module
 import br.com.moapetapp.presentation.pet.PetListViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -25,6 +32,13 @@ val domainModule = module {
     factory { DeletePetUseCase(repository = get()) }
     factory { GetAllPetsUseCase(repository = get()) }
     factory { GetPetByIdUseCase(repository = get()) }
+
+    // Vacina
+    factory { AddVaccineUseCase(repository = get()) }
+    factory { UpdateVaccineUseCase(repository = get()) }
+    factory { DeleteVaccineUseCase(repository = get()) }
+    factory { GetVaccineForPetUseCase(repository = get()) }
+    factory { GetVaccineByIdUseCase(repository = get()) }
 }
 
 val dataModule = module {
@@ -34,7 +48,7 @@ val dataModule = module {
             .setQueryCoroutineContext(Dispatchers.IO)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onOpen(connection: SQLiteConnection) {
-                    connection.execSQL("PRAGMA foreign_key = oN")
+                    connection.execSQL("PRAGMA foreign_keys = ON")
                 }
             } )
             .fallbackToDestructiveMigration(dropAllTables = true)
@@ -42,6 +56,7 @@ val dataModule = module {
     }
     // DAOs
     single { get<MoaPetDatabase>().petDao() }
+    single { get<MoaPetDatabase>().vaccineDao() }
 
     // Repositories
     // PetRepository registrado pela interface (não pela classe)
@@ -50,8 +65,14 @@ val dataModule = module {
         PetRepositoryImpl(petDao = get())
     }
 
+    // Vacinas
+    single<VaccineRepository> {
+        VaccineRepositoryImpl(vaccineDao = get())
+    }
+
     // Armazenamento de imagens
     single<ImageStorage> { provideImageStorage() }
+
 }
 
 val presentationModule = module {

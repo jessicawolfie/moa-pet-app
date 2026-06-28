@@ -4,7 +4,6 @@ import br.com.moapetapp.data.local.dao.PetDao
 import br.com.moapetapp.data.mapper.toDomain
 import br.com.moapetapp.data.mapper.toEntity
 import br.com.moapetapp.domain.model.Pet
-import br.com.moapetapp.data.repository.PetRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -23,7 +22,7 @@ class PetRepositoryImpl (
     // Busca um pet por ID
     override suspend fun getPetById(id: String): Result<Pet> {
         return try {
-            val entity = petDao.getPetId(id)
+            val entity = petDao.getPetById(id)
             if (entity!= null) {
                 Result.success(entity.toDomain())
             } else {
@@ -57,7 +56,7 @@ class PetRepositoryImpl (
     // Deleta pet por ID
     override suspend fun deletePet(petID: String): Result<Unit> {
         return try {
-            val entity =  petDao.getPetId(petID)
+            val entity =  petDao.getPetById(petID)
             if (entity != null) {
                 petDao.deletePet(entity)
                 Result.success(Unit)
