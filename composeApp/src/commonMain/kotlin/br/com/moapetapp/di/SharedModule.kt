@@ -1,6 +1,9 @@
 package br.com.moapetapp.di
 
+import androidx.room.RoomDatabase
+import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.execSQL
 import br.com.moapetapp.core.image.ImageStorage
 import br.com.moapetapp.core.image.provideImageStorage
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +32,12 @@ val dataModule = module {
         getDatabaseBuilder()
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
-            .fallbackToDestructiveMigration(dropAllTables = true)  // Por enquanto, em dev
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onOpen(connection: SQLiteConnection) {
+                    connection.execSQL("PRAGMA foreign_key = oN")
+                }
+            } )
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
     }
     // DAOs

@@ -21,7 +21,7 @@ data class Vaccine(
     val id: String,
     val petId: String,
     val name: String,
-    val appliedData: LocalDate,
+    val appliedDate: LocalDate,
     val nextDoseDate: LocalDate?,
     val veterinarian: String?,
     val notes: String?
