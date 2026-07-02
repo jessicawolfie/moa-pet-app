@@ -73,6 +73,7 @@ kotlin {
 
         // androidMain: código que SÓ roda no Android 
         androidMain.dependencies {
+            implementation(libs.androidx.core.ktx)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)

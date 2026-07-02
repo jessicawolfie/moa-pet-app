@@ -6,6 +6,8 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
 import br.com.moapetapp.core.image.ImageStorage
 import br.com.moapetapp.core.image.provideImageStorage
+import br.com.moapetapp.core.notification.NotificationScheduler
+import br.com.moapetapp.core.notification.provideNotificationScheduler
 import kotlinx.coroutines.Dispatchers
 import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
@@ -72,6 +74,9 @@ val dataModule = module {
 
     // Armazenamento de imagens
     single<ImageStorage> { provideImageStorage() }
+
+    // Notificações
+    single<NotificationScheduler> { provideNotificationScheduler() }
 
 }
 
