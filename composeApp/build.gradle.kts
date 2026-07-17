@@ -91,6 +91,7 @@ kotlin {
         // commonTest: testes que rodam em todas as plataformas 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }

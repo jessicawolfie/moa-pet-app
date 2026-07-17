@@ -13,6 +13,7 @@ import kotlinx.datetime.toInstant
 
 class ScheduleVaccineReminderUseCase(
     private val notificationScheduler: NotificationScheduler,
+    private val clock: Clock = Clock.System,
 ) {
     companion object {
         private const val DAYS_BEFORE = 5
@@ -34,7 +35,7 @@ class ScheduleVaccineReminderUseCase(
         val reminderInstant = reminderDate.atTime(REMINDER_TIME).toInstant(timeZone)
         
         // 4) Se o instante já passou, não agendar lembrete
-        if (reminderInstant < Clock.System.now()) 
+        if (reminderInstant <= clock.now())
             return ReminderResult.DateInPast
         
         // 5) Agenda notificação
