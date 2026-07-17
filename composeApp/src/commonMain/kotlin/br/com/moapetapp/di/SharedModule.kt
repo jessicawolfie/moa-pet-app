@@ -20,12 +20,14 @@ import br.com.moapetapp.domain.usecase.vaccine.AddVaccineUseCase
 import br.com.moapetapp.domain.usecase.vaccine.DeleteVaccineUseCase
 import br.com.moapetapp.domain.usecase.vaccine.GetVaccineByIdUseCase
 import br.com.moapetapp.domain.usecase.vaccine.GetVaccineForPetUseCase
+import br.com.moapetapp.domain.usecase.vaccine.ScheduleVaccineReminderUseCase
 import br.com.moapetapp.domain.usecase.vaccine.UpdateVaccineUseCase
 import org.koin.dsl.module
 import br.com.moapetapp.presentation.pet.PetListViewModel
 import org.koin.core.module.dsl.viewModelOf
 import br.com.moapetapp.ui.pet.PetFormViewModel
 import kotlinx.coroutines.IO
+
 
 val domainModule = module {
     // Use Cases - regra de negócio
@@ -41,6 +43,7 @@ val domainModule = module {
     factory { DeleteVaccineUseCase(repository = get()) }
     factory { GetVaccineForPetUseCase(repository = get()) }
     factory { GetVaccineByIdUseCase(repository = get()) }
+    factory { ScheduleVaccineReminderUseCase(notificationScheduler = get()) }
 }
 
 val dataModule = module {
