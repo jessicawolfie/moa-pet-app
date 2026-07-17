@@ -16,11 +16,11 @@ interface NotificationScheduler {
     suspend fun requestPermission(): Boolean
 
     /**
-     * Agenda uma notificação local para disparar em [triggerArt].
+     * Agenda uma notificação local para disparar em [triggerAt].
      * @param id identificador único (use o id da vacina) - permite cancelar/sobrescrever depois.
      * @param title título da notificação.
      * @param body corpo da notificação.
-     * @param triggerArt instante (UTC) em que deve disparar.
+     * @param triggerAt instante (UTC) em que deve disparar.
      */
     suspend fun scheduleNotification(
         id: String,
