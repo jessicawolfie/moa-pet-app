@@ -27,6 +27,7 @@ import br.com.moapetapp.presentation.pet.PetListViewModel
 import br.com.moapetapp.ui.pet.PetDetailViewModel
 import org.koin.core.module.dsl.viewModelOf
 import br.com.moapetapp.ui.pet.PetFormViewModel
+import br.com.moapetapp.ui.vaccine.VaccineListViewModel
 import kotlinx.coroutines.IO
 
 
@@ -88,6 +89,7 @@ val presentationModule = module {
     viewModelOf(::PetListViewModel)
     viewModelOf(::PetFormViewModel)
     viewModelOf(::PetDetailViewModel)
+    viewModelOf(::VaccineListViewModel)
 }
 
 val sharedModules = listOf(
