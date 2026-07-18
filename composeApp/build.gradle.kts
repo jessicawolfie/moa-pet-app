@@ -74,8 +74,8 @@ kotlin {
         // androidMain: código que SÓ roda no Android 
         androidMain.dependencies {
             implementation(libs.androidx.core.ktx)
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.ui.tooling.preview)
             implementation(libs.koin.android)
 
             // Ktor client Android
@@ -90,7 +90,7 @@ kotlin {
 
         // commonTest: testes que rodam em todas as plataformas 
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlin("test"))
             implementation(libs.kotlinx.coroutines.test)
         }
     }
@@ -137,6 +137,7 @@ room {
 // No KMP, geramos para Android + iOS (simulador e device).
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+    debugImplementation(libs.androidx.ui.tooling)
 
     // Gera o código Room para Android
     add("kspAndroid", libs.room.compiler)

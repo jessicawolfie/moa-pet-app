@@ -15,6 +15,7 @@ android-targetSdk   = "35"
 # Activity Compose
 activityCompose = "1.9.3"
 androidxCore = "1.15.0"
+androidxComposeUi = "1.7.6"
 
 # ── Arquitetura e DI ──
 koin                = "4.0.0"          # injecao de dependencia KMP
@@ -63,6 +64,8 @@ compose-components-resources = { module = "org.jetbrains.compose.components:comp
 # ── AndroidX ──
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-core-ktx        = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidxComposeUi" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidxComposeUi" }
 
 # ── Lifecycle (ViewModel KMP) ──
 lifecycle-viewmodel     = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
