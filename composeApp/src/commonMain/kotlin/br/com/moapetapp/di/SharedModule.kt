@@ -23,7 +23,7 @@ import br.com.moapetapp.domain.usecase.vaccine.GetVaccineForPetUseCase
 import br.com.moapetapp.domain.usecase.vaccine.ScheduleVaccineReminderUseCase
 import br.com.moapetapp.domain.usecase.vaccine.UpdateVaccineUseCase
 import org.koin.dsl.module
-import br.com.moapetapp.presentation.pet.PetListViewModel
+import br.com.moapetapp.ui.pet.PetListViewModel
 import br.com.moapetapp.ui.pet.PetDetailViewModel
 import org.koin.core.module.dsl.viewModelOf
 import br.com.moapetapp.ui.pet.PetFormViewModel

@@ -46,6 +46,9 @@ private class IosNotificationScheduler : NotificationScheduler {
         body: String,
         triggerAt: Instant,
     ) {
+        val granted = requestPermission()
+        if (!granted) return
+
         // Conteúdo da notificação
         val content = UNMutableNotificationContent().apply {
             setTitle(title)

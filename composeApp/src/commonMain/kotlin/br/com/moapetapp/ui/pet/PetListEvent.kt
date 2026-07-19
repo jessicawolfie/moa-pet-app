@@ -1,4 +1,4 @@
-package br.com.moapetapp.presentation.pet
+package br.com.moapetapp.ui.pet
 
 // Eventos que a uI pode disparar na tela de lista pets
 sealed interface PetListEvent {

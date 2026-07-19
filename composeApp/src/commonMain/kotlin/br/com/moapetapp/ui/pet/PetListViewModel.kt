@@ -1,4 +1,4 @@
-package br.com.moapetapp.presentation.pet
+package br.com.moapetapp.ui.pet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

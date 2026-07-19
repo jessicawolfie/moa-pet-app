@@ -11,8 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.moapetapp.presentation.pet.PetListEvent
-import br.com.moapetapp.presentation.pet.PetListViewModel
 import br.com.moapetapp.ui.components.EmptyPetsState
 import br.com.moapetapp.ui.components.PetCard
 import org.koin.compose.viewmodel.koinViewModel
