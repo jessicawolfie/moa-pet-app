@@ -8,97 +8,104 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.room.util.TableInfo
+import br.com.moapetapp.core.image.ImageStorage
 import br.com.moapetapp.domain.model.Pet
+import coil3.compose.AsyncImage
+import org.koin.compose.koinInject
 
 /**
  * Card que exibe informações resumidas de um pet
- *
- * @param pet Pet a exibir
- * @param onClick Callback ao tocar no card (abrir detalhes)
- * @param modifier Modifier opcional para customização
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetCard(
     pet: Pet,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+    val imageStorage = koinInject<ImageStorage>()
+
     Card(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
-        shape = MaterialTheme.shapes.large
+        shape = MaterialTheme.shapes.large,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Foto do pet ou placeholder com inicial
+            // Avatar: foto real se houver, senão a inicial num círculo colorido
+            val photoModel = pet.photoFileName?.let {
+                "file://" + imageStorage.absolutePathFor(it)
+            }
             Box(
                 modifier = Modifier
                     .size(80.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
-                Text(
-                    // Primeira letra do nome em maiúscula
-                    text = pet.name.take(1).uppercase(),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold
-                )
+                if (photoModel != null) {
+                    AsyncImage(
+                        model = photoModel,
+                        contentDescription = "Foto de ${pet.name}",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                } else {
+                    Text(
+                        text = pet.name.take(1).uppercase(),
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(Modifier.height(12.dp))
 
-            // Nome do pet
             Text(
                 text = pet.name,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(Modifier.height(4.dp))
 
-            // Espécie com ícone de pata
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    text = "🐾",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Spacer(modifier = Modifier.width(4.dp))
+                Text("🐾", style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.width(4.dp))
                 Text(
                     text = pet.species.displayName(),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(Modifier.height(8.dp))
 
-            // Badge de idade (verde se filhote e cinza se adulto)
-            if (pet.ageInMonths != null){
+            if (pet.ageInMonths != null) {
                 Surface(
                     shape = MaterialTheme.shapes.small,
                     color = if (pet.isPuppy) {
                         MaterialTheme.colorScheme.tertiaryContainer
                     } else {
                         MaterialTheme.colorScheme.secondaryContainer
-                    }
+                    },
                 ) {
                     Text(
                         text = pet.ageFormatted,
@@ -108,7 +115,7 @@ fun PetCard(
                             MaterialTheme.colorScheme.onTertiaryContainer
                         } else {
                             MaterialTheme.colorScheme.onSecondaryContainer
-                        }
+                        },
                     )
                 }
             }
