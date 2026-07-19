@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ fun PetDetailScreen(
     petId: String,
     onNavigateBack: () -> Unit,
     onVaccinesClick: (petId: String) -> Unit,
+    onEditClick: (petId: String) -> Unit,
     viewModel: PetDetailViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -49,6 +51,11 @@ fun PetDetailScreen(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Voltar",
                         )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onEditClick(petId) }) {
+                        Icon(Icons.Default.Edit, contentDescription = "Editar pet")
                     }
                 },
             )

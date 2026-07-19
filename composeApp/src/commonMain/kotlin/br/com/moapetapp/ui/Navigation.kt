@@ -11,6 +11,7 @@ import androidx.navigation.toRoute
 import br.com.moapetapp.ui.pet.PetDetailScreen
 import br.com.moapetapp.ui.pet.PetListScreen
 import br.com.moapetapp.ui.pet.PetFormScreen
+import br.com.moapetapp.ui.vaccine.VaccineFormScreen
 import br.com.moapetapp.ui.vaccine.VaccineListScreen
 
 /**
@@ -61,6 +62,9 @@ fun MoaPetNavHost(
                 onVaccinesClick = { petId ->
                     navController.navigate(Screen.VaccineList(petId))
                 },
+                onEditClick = { petId ->
+                    navController.navigate(Screen.PetForm(petId = petId))
+                },
             )
         }
 
@@ -75,6 +79,15 @@ fun MoaPetNavHost(
                 onVaccineClick = { petId, vaccineId ->
                     navController.navigate(Screen.VaccineForm(petId = petId, vaccineId = vaccineId))
                 },
+            )
+        }
+
+        composable<Screen.VaccineForm> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.VaccineForm>()
+            VaccineFormScreen(
+                petId = args.petId,
+                vaccineId = args.vaccineId,
+                onNavigateBack = { navController.popBackStack() },
             )
         }
     }

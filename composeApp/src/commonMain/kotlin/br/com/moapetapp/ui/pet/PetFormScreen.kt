@@ -1,5 +1,6 @@
 package br.com.moapetapp.ui.pet
 
+import br.com.moapetapp.ui.components.AppDateField
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -202,11 +203,11 @@ fun PetFormScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
-            Text(
-                text = "Data de nascimento será adicionada em breve",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            // Campo: data de nascimento (opcional)
+            AppDateField(
+                label = "Nascimento",
+                epochDays = uiState.birthDateEpochDays,
+                onDateSelected = { viewModel.onEvent(PetFormEvent.BirthDateChanged(it)) },
             )
         }
     }
