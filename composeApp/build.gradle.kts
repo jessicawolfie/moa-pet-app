@@ -40,6 +40,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
+            implementation(libs.compose.iconsExtended)
 
             // Lifecycle (ViewModel KMP)
             implementation(libs.lifecycle.viewmodel)
