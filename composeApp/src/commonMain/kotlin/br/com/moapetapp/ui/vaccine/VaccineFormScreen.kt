@@ -1,11 +1,11 @@
 package br.com.moapetapp.ui.vaccine
 
+import br.com.moapetapp.core.notification.rememberNotificationPermissionRequester
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -35,6 +35,11 @@ fun VaccineFormScreen(
         if (uiState.isSaved) onNavigateBack()
     }
 
+    val permissionRequester = rememberNotificationPermissionRequester { _ ->
+        // Concedendo ou negando, prossegue com o save.
+        viewModel.onEvent(VaccineFormEvent.Save)
+    }
+
     Scaffold(
         topBar = {
          TopAppBar(
@@ -49,7 +54,15 @@ fun VaccineFormScreen(
         bottomBar = {
             Surface(shadowElevation = 8.dp) {
                 Button(
-                    onClick = { viewModel.onEvent(VaccineFormEvent.Save) },
+                    onClick = {
+                        // Com próxima dose -> pede permissão antes (pro lembrete funcionar).
+                        // Sem próxima dose -> não há lembrete -> salva direto.
+                        if (uiState.nextDoseDateEpochDays != null) {
+                            permissionRequester.request()
+                        } else {
+                            viewModel.onEvent(VaccineFormEvent.Save)
+                        }
+                    },
                     enabled = !uiState.isSaving,
                     modifier = Modifier.fillMaxWidth().padding(16.dp)
                 ) {
