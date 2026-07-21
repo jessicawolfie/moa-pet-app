@@ -1,0 +1,22 @@
+{
+  "images" : [
+    {
+      "filename" : "moapet_splash.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "moa_pet_app_icon_beagle_portrait_crop.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
