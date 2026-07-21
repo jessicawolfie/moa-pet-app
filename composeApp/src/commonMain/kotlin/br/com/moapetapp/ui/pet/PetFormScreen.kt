@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 import org.koin.compose.koinInject
 import br.com.moapetapp.core.image.ImageStorage
+import androidx.compose.material.icons.filled.PhotoCamera
 
 /**
  * Tela de formulário de pet (criar/editar)
@@ -118,8 +119,7 @@ fun PetFormScreen(
                 modifier = Modifier
                     .size(120.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .align(Alignment.CenterHorizontally)
+                    .background(MaterialTheme.colorScheme.primaryContainer)                     .align(Alignment.CenterHorizontally)
                     .clickable { imagePicker.launch() },
                 contentAlignment = Alignment.Center
             ) {
@@ -131,8 +131,19 @@ fun PetFormScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {
-                    Text(if (uiState.isEditMode) "Add Foto" else "Add Foto")
-                }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            Icons.Default.PhotoCamera,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            "Add Foto",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }                }
             }
 
             // Campo: nome
