@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema base do app: herda o mesmo que a Activity já usava -->
+    <style name="Theme.MoaPet" parent="@android:style/Theme.Material.Light.NoActionBar" />
+
+    <!-- Tema da splash: herda do base e adiciona os atributos da SplashScreen API -->
+    <style name="Theme.MoaPet.Splash" parent="Theme.SplashScreen">
+        <!-- Cor de fundo da splash (o roxo Moa) -->
+        <item name="windowSplashScreenBackground">@color/moa_splash_background</item>
+        <!-- O ícone central: a beagle -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/moapet_splash</item>
+        <!-- Tema aplicado DEPOIS que a splash some (o tema real do app) -->
+        <item name="postSplashScreenTheme">@style/Theme.MoaPet</item>
+    </style>
+</resources>

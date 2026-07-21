@@ -70,6 +70,8 @@ kotlin {
             // Coil (imagens)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+
+            implementation(libs.androidx.core.splashscreen)
         }
 
         // androidMain: código que SÓ roda no Android 
