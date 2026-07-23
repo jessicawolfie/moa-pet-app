@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
+import br.com.moapetapp.data.local.dao.MealDao
 import br.com.moapetapp.data.local.dao.PetDao
 import br.com.moapetapp.data.local.dao.VaccineDao
+import br.com.moapetapp.data.local.entity.MealEntity
 import br.com.moapetapp.data.local.entity.PetEntity
 import br.com.moapetapp.data.local.entity.VaccineEntity
 
@@ -14,8 +16,9 @@ import br.com.moapetapp.data.local.entity.VaccineEntity
     entities = [
         PetEntity::class,
         VaccineEntity::class,
+        MealEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -24,6 +27,8 @@ abstract class MoaPetDatabase : RoomDatabase() {
     
     abstract fun petDao(): PetDao
     abstract fun vaccineDao(): VaccineDao
+    
+    abstract fun mealDao(): MealDao
     
     companion object {
         const val DATABASE_NAME = "moapetapp.db"

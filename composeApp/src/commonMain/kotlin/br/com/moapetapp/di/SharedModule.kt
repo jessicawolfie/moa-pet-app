@@ -65,6 +65,7 @@ val dataModule = module {
     // DAOs
     single { get<MoaPetDatabase>().petDao() }
     single { get<MoaPetDatabase>().vaccineDao() }
+    single { get<MoaPetDatabase>().mealDao() }
 
     // Repositories
     // PetRepository registrado pela interface (não pela classe)
