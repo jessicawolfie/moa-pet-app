@@ -11,10 +11,18 @@ import br.com.moapetapp.core.notification.provideNotificationScheduler
 import kotlinx.coroutines.Dispatchers
 import br.com.moapetapp.data.local.MoaPetDatabase
 import br.com.moapetapp.data.local.getDatabaseBuilder
+import br.com.moapetapp.data.repository.MealRepository
+import br.com.moapetapp.data.repository.MealRepositoryImpl
 import br.com.moapetapp.data.repository.PetRepositoryImpl
 import br.com.moapetapp.data.repository.PetRepository
 import br.com.moapetapp.data.repository.VaccineRepository
 import br.com.moapetapp.data.repository.VaccineRepositoryImpl
+import br.com.moapetapp.domain.usecase.meal.AddMealUseCase
+import br.com.moapetapp.domain.usecase.meal.DeleteMealUseCase
+import br.com.moapetapp.domain.usecase.meal.GetCurrentMealUseCase
+import br.com.moapetapp.domain.usecase.meal.GetHistoryUseCase
+import br.com.moapetapp.domain.usecase.meal.ScheduleFoodReminderUseCase
+import br.com.moapetapp.domain.usecase.meal.UpdateMealUseCase
 import br.com.moapetapp.domain.usecase.pet.*
 import br.com.moapetapp.domain.usecase.vaccine.AddVaccineUseCase
 import br.com.moapetapp.domain.usecase.vaccine.DeleteVaccineUseCase
@@ -47,6 +55,14 @@ val domainModule = module {
     factory { GetVaccineForPetUseCase(repository = get()) }
     factory { GetVaccineByIdUseCase(repository = get()) }
     factory { ScheduleVaccineReminderUseCase(notificationScheduler = get()) }
+
+    // Alimentação
+    factory { AddMealUseCase(repository = get()) }
+    factory { UpdateMealUseCase(repository = get()) }
+    factory { DeleteMealUseCase(repository = get()) }
+    factory { GetCurrentMealUseCase(repository = get()) }
+    factory { GetHistoryUseCase(repository = get()) }
+    factory { ScheduleFoodReminderUseCase(notificationScheduler = get()) }
 }
 
 val dataModule = module {
@@ -84,6 +100,9 @@ val dataModule = module {
 
     // Notificações
     single<NotificationScheduler> { provideNotificationScheduler() }
+
+    // Alimentação
+    single<MealRepository> { MealRepositoryImpl(mealDao = get()) }
 
 }
 
