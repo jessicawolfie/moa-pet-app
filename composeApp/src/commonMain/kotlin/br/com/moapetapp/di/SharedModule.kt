@@ -21,6 +21,7 @@ import br.com.moapetapp.domain.usecase.meal.AddMealUseCase
 import br.com.moapetapp.domain.usecase.meal.DeleteMealUseCase
 import br.com.moapetapp.domain.usecase.meal.GetCurrentMealUseCase
 import br.com.moapetapp.domain.usecase.meal.GetHistoryUseCase
+import br.com.moapetapp.domain.usecase.meal.GetMealByIdUseCase
 import br.com.moapetapp.domain.usecase.meal.ScheduleFoodReminderUseCase
 import br.com.moapetapp.domain.usecase.meal.UpdateMealUseCase
 import br.com.moapetapp.domain.usecase.pet.*
@@ -30,6 +31,8 @@ import br.com.moapetapp.domain.usecase.vaccine.GetVaccineByIdUseCase
 import br.com.moapetapp.domain.usecase.vaccine.GetVaccineForPetUseCase
 import br.com.moapetapp.domain.usecase.vaccine.ScheduleVaccineReminderUseCase
 import br.com.moapetapp.domain.usecase.vaccine.UpdateVaccineUseCase
+import br.com.moapetapp.ui.meal.MealViewModel
+import br.com.moapetapp.ui.meal.MealFormViewModel
 import org.koin.dsl.module
 import br.com.moapetapp.ui.pet.PetListViewModel
 import br.com.moapetapp.ui.pet.PetDetailViewModel
@@ -62,6 +65,7 @@ val domainModule = module {
     factory { DeleteMealUseCase(repository = get()) }
     factory { GetCurrentMealUseCase(repository = get()) }
     factory { GetHistoryUseCase(repository = get()) }
+    factory { GetMealByIdUseCase(repository = get()) }
     factory { ScheduleFoodReminderUseCase(notificationScheduler = get()) }
 }
 
@@ -112,6 +116,8 @@ val presentationModule = module {
     viewModelOf(::PetDetailViewModel)
     viewModelOf(::VaccineListViewModel)
     viewModelOf(::VaccineFormViewModel)
+    viewModelOf(::MealViewModel)
+    viewModelOf(::MealFormViewModel)
 }
 
 val sharedModules = listOf(

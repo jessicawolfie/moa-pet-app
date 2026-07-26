@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Vaccines
 import androidx.compose.material.icons.filled.Medication
 import androidx.compose.material.icons.filled.MedicalServices
@@ -36,6 +37,7 @@ fun PetDetailScreen(
     petId: String,
     onNavigateBack: () -> Unit,
     onVaccinesClick: (petId: String) -> Unit,
+    onMealsClick: (petId: String) -> Unit,
     onEditClick: (petId: String) -> Unit,
     viewModel: PetDetailViewModel = koinViewModel(),
 ) {
@@ -170,11 +172,19 @@ fun PetDetailScreen(
                             onClick = { onVaccinesClick(petId) },
                         )
                         HealthCard(
+                            title = "Alimentação",
+                            subtitle = "Controle de estoque e lembretes",
+                            icon = Icons.Default.Restaurant,
+                            iconColor = MaterialTheme.colorScheme.primary,
+                            iconBg = MaterialTheme.colorScheme.primaryContainer,
+                            onClick = { onMealsClick(petId) },
+                        )
+                        HealthCard(
                             title = "Medicações",
                             subtitle = "Em breve",
                             icon = Icons.Default.Medication,
-                            iconColor = MaterialTheme.colorScheme.primary,
-                            iconBg = MaterialTheme.colorScheme.primaryContainer,
+                            iconColor = Color(0xFF673AB7),
+                            iconBg = Color(0xFFD1C4E9),
                             onClick = null,
                         )
                         HealthCard(

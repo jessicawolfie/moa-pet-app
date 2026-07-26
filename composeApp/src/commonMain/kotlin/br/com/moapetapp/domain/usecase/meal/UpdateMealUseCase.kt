@@ -6,7 +6,7 @@ import br.com.moapetapp.domain.model.Meal
 class UpdateMealUseCase(
     private val repository: MealRepository,
 ) {
-    suspend operator fun invoke(meal: Meal): Result<Unit> {
+    suspend operator fun invoke(meal: Meal): Result<Meal> {
         validateMeal(meal)?.let { return Result.failure(it) }
 
         if (meal.id.isBlank()) {
@@ -14,6 +14,6 @@ class UpdateMealUseCase(
                 IllegalArgumentException("ID do pacote de comida é obrigatório para atualizar")
             )
         }
-        return repository.updateMeal(meal)
+        return repository.updateMeal(meal).map { meal }
     }
 }

@@ -13,6 +13,7 @@ import br.com.moapetapp.ui.pet.PetListScreen
 import br.com.moapetapp.ui.pet.PetFormScreen
 import br.com.moapetapp.ui.vaccine.VaccineFormScreen
 import br.com.moapetapp.ui.vaccine.VaccineListScreen
+import br.com.moapetapp.ui.meal.MealScreen
 
 /**
  * Configura o grafo de navegação do app.
@@ -62,6 +63,9 @@ fun MoaPetNavHost(
                 onVaccinesClick = { petId ->
                     navController.navigate(Screen.VaccineList(petId))
                 },
+                onMealsClick = { petId ->
+                    navController.navigate(Screen.MealScreen(petId))
+                },
                 onEditClick = { petId ->
                     navController.navigate(Screen.PetForm(petId = petId))
                 },
@@ -88,6 +92,17 @@ fun MoaPetNavHost(
                 petId = args.petId,
                 vaccineId = args.vaccineId,
                 onNavigateBack = { navController.popBackStack() },
+            )
+        }
+
+        composable<Screen.MealScreen> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.MealScreen>()
+            MealScreen(
+                petId = args.petId,
+                onNavigateBack = { navController.popBackStack() },
+                onMealClick = { petId, mealId ->
+                    // Em breve: navController.navigate(Screen.MealForm(petId, mealId))
+                }
             )
         }
     }
