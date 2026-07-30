@@ -57,6 +57,16 @@ sealed interface Screen {
     data class MealScreen(val petId: String) : Screen
 
     /**
+     * Tela de criação/edição de pacote de comida.
+     * Rota: "meal_form/{petId}?mealId={mealId}"
+     */
+    @Serializable
+    data class MealForm(
+        val petId: String,
+        val mealId: String? = null
+    ) : Screen
+
+    /**
      * Tela de medicações de um pet.
      * Rota: "medication_list/{petId}"
      */

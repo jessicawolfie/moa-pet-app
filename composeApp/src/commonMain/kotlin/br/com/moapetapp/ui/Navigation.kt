@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import br.com.moapetapp.ui.meal.MealFormScreen
 import br.com.moapetapp.ui.pet.PetDetailScreen
 import br.com.moapetapp.ui.pet.PetListScreen
 import br.com.moapetapp.ui.pet.PetFormScreen
@@ -101,8 +102,17 @@ fun MoaPetNavHost(
                 petId = args.petId,
                 onNavigateBack = { navController.popBackStack() },
                 onMealClick = { petId, mealId ->
-                    // Em breve: navController.navigate(Screen.MealForm(petId, mealId))
+                    navController.navigate(Screen.MealForm(petId = petId, mealId = mealId))
                 }
+            )
+        }
+
+        composable<Screen.MealForm> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.MealForm>()
+            MealFormScreen(
+                petId = args.petId,
+                mealId = args.mealId,
+                onNavigateBack = { navController.popBackStack() },
             )
         }
     }
