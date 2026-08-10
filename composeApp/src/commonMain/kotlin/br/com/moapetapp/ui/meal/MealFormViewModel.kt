@@ -28,6 +28,8 @@ data class MealFormUiState(
     val notes: String = "",
     val nameError: String? = null,
     val amountError: String? = null,
+    val dateError: String? = null,
+    val generalError: String? = null,
     val isEditMode: Boolean = false,
     val isSavingMode: Boolean = false,
     val isSaved: Boolean = false,
@@ -87,9 +89,9 @@ class MealFormViewModel(
             is MealFormEvent.TotalAmountChanged ->
                 _uiState.value = _uiState.value.copy(totalAmount = event.value, amountError = null)
             is MealFormEvent.DailyAmountChanged ->
-                _uiState.value = _uiState.value.copy(dailyAmount = event.value)
+                _uiState.value = _uiState.value.copy(dailyAmount = event.value, amountError = null)
             is MealFormEvent.PurchaseDateChanged ->
-                _uiState.value = _uiState.value.copy(purchaseDateEpochDays = event.epochDays)
+                _uiState.value = _uiState.value.copy(purchaseDateEpochDays = event.epochDays, dateError = null)
             is MealFormEvent.ReminderDaysChanged ->
                 _uiState.value = _uiState.value.copy(reminderDaysBefore = event.value)
             is MealFormEvent.NotesChanged ->
@@ -100,29 +102,39 @@ class MealFormViewModel(
 
     private fun save() {
         val state = _uiState.value
-        var hasError = false
 
-        if (state.foodName.isBlank()) {
-            _uiState.value = _uiState.value.copy(nameError = "Nome é obrigatório")
-            hasError = true
+        val nameError = when {
+            state.foodName.isBlank() -> "Nome é obrigatório"
+            state.foodName.trim().length < 2 -> "Nome deve ter pelo menos 2 caracteres"
+            else -> null
         }
 
-        // Converte as quantidades; se inválidas, erro
-        // Usamos toIntOrNull para bater com o modelo Meal
         val total = state.totalAmount.replace(",", ".").toDoubleOrNull()?.toInt()
         val daily = state.dailyAmount.replace(",", ".").toDoubleOrNull()?.toInt()
 
-        if (total == null || daily == null) {
-            _uiState.value = _uiState.value.copy(amountError = "Informe quantidades válidas")
-            hasError = true
+        val amountError = when {
+            total == null -> "Quantidade total é obrigatória"
+            total <= 0 -> "Quantidade total deve ser maior que zero"
+            daily == null -> "Consumo diário é obrigatório"
+            daily <= 0 -> "Consumo diário deve ser maior que zero"
+            daily > total -> "Consumo diário não pode ser maior que a quantidade total"
+            else -> null
         }
 
-        if (state.purchaseDateEpochDays == null) {
-            _uiState.value = _uiState.value.copy(amountError = "Informe data de compra")
-            hasError = true
+        val dateError = if (state.purchaseDateEpochDays == null) "Informe a data de compra" else null
+
+        // Aplica todos os erros de uma só vez
+        _uiState.value = _uiState.value.copy(
+            nameError = nameError,
+            amountError = amountError,
+            dateError = dateError,
+            generalError = null,
+        )
+
+        if (nameError != null || amountError != null || dateError != null) {
+            return
         }
 
-        if (hasError) return
 
         val meal = Meal(
             id = editingMealId ?: "",
@@ -149,7 +161,7 @@ class MealFormViewModel(
                 scheduleFoodReminderUseCase(savedMeal)
                 _uiState.value = _uiState.value.copy(isSavingMode = false, isSaved = true)
             }.onFailure { error ->
-                _uiState.value = _uiState.value.copy(isSavingMode = false, nameError = error.message)
+                _uiState.value = _uiState.value.copy(isSavingMode = false, generalError = error.message)
             }
         }
     }

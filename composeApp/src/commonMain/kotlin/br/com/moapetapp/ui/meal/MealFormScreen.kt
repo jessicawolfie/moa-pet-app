@@ -25,6 +25,7 @@ fun MealFormScreen(
     viewModel: MealFormViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(petId, mealId) {
         viewModel.initialize(petId, mealId)
@@ -34,10 +35,17 @@ fun MealFormScreen(
         if (uiState.isSaved) onNavigateBack()
     }
 
+    LaunchedEffect(uiState.generalError) {
+        uiState.generalError?.let {
+            snackbarHostState.showSnackbar(it)
+        }
+    }
+
     // Unidade dinâmica conforme o tipo escolhido
     val unit = uiState.foodType.unitLabel
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(if (uiState.isEditMode) "Editar Pacote" else "Novo Pacote") },
@@ -58,7 +66,7 @@ fun MealFormScreen(
                     if (uiState.isSavingMode) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(20.dp),
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onPrimary,
                         )
                     } else {
                         Text("Salvar Pacote")
@@ -111,7 +119,7 @@ fun MealFormScreen(
                 supportingText = uiState.amountError?.let { { Text(it) } },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             // Consumo diário - unidade dinâmica
@@ -124,7 +132,7 @@ fun MealFormScreen(
                 supportingText = uiState.amountError?.let { { Text(it) } },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             // Data de compra
@@ -132,6 +140,8 @@ fun MealFormScreen(
                 label = "Data de compra *",
                 epochDays = uiState.purchaseDateEpochDays,
                 onDateSelected = { viewModel.onEvent(MealFormEvent.PurchaseDateChanged(it)) },
+                isError = uiState.dateError != null,
+                supportingText = uiState.dateError,
             )
 
             // Antecedência do lembrete
@@ -152,6 +162,15 @@ fun MealFormScreen(
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 2,
             )
+
+            // Erro geral
+            uiState.generalError?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            }
         }
     }
 }
