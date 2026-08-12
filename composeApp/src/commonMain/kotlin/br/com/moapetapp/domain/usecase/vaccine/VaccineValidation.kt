@@ -27,5 +27,10 @@ internal fun validateVaccine(vaccine: Vaccine): Throwable? {
         }
     }
 
+    // Antecedência do lembrete precisa ser não negativa
+    if (vaccine.reminderDaysBefore < 0) {
+        return IllegalArgumentException("Antecedência do lembrete não pode ser negativa.")
+    }
+
     return null
 }

@@ -10,6 +10,7 @@ fun VaccineEntity.toDomain(): Vaccine = Vaccine(
     name = this.name,
     appliedDate = this.appliedDate,
     nextDoseDate = this.nextDoseDate,
+    reminderDaysBefore = this.reminderDaysBefore,
     veterinarian = this.veterinarian,
     notes = this.notes
 )
@@ -21,6 +22,7 @@ fun Vaccine.toEntity(): VaccineEntity = VaccineEntity(
     name = this.name,
     appliedDate = this.appliedDate,
     nextDoseDate = this.nextDoseDate,
+    reminderDaysBefore = this.reminderDaysBefore,
     veterinarian = this.veterinarian,
     notes = this.notes
 )

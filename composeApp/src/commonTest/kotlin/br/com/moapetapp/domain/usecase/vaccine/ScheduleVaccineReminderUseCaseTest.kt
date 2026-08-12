@@ -26,12 +26,14 @@ class ScheduleVaccineReminderUseCaseTest {
     private fun vaccine(
         id: String = "vac-1",
         nextDoseDate: LocalDate? = null,
+        reminderDaysBefore: Int = 5,
     ) = Vaccine(
         id = id,
         petId = "pet-1",
         name = "V10",
         appliedDate = LocalDate(2025, 12, 1),
         nextDoseDate = nextDoseDate,
+        reminderDaysBefore = reminderDaysBefore,
         veterinarian = null,
         notes = null,
     )
@@ -95,5 +97,29 @@ class ScheduleVaccineReminderUseCaseTest {
 
         // e o mesmo id foi usado pra cancelar e agendar (garante que casa)
         assertEquals("vac-1", fake.scheduledCall.last().id)
+    }
+
+    @Test
+    fun `respeita reminderDaysBefore customizado ao agendar`() = runTest {
+        // Arrange: próxima dose em 2026-01-20, mas avisar 10 dias antes
+        val fake = FakeNotificationScheduler()
+        val useCase = ScheduleVaccineReminderUseCase(
+            notificationScheduler = fake,
+            clock = fixedClock,
+        )
+        val nextDose = LocalDate(2026, 1, 20)
+
+        // Act
+        val result = useCase(vaccine(nextDoseDate = nextDose, reminderDaysBefore = 10))
+
+        // Assert: agendou 1 notificação, para 10 dias antes (2026-01-10)
+        assertEquals(1, fake.scheduledCall.size)
+
+        val expectedInstant = LocalDate(2026, 1, 10)
+            .atTime(9, 0)
+            .toInstant(TimeZone.currentSystemDefault())
+        assertEquals(expectedInstant, fake.scheduledCall.first().triggerAt)
+
+        assertTrue(result is ReminderResult.Scheduled)
     }
 }

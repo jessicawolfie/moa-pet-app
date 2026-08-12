@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.moapetapp.ui.components.AppDateField
-import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +65,7 @@ fun VaccineFormScreen(
                         }
                     },
                     enabled = !uiState.isSaving,
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
                 ) {
                     if (uiState.isSaving) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp), color = MaterialTheme.colorScheme.onPrimary)
@@ -109,6 +110,16 @@ fun VaccineFormScreen(
                 label = "Próxima dose",
                 epochDays = uiState.nextDoseDateEpochDays,
                 onDateSelected = { viewModel.onEvent(VaccineFormEvent.NextDoseDateChanged(it)) },
+            )
+
+            // Antecedência do lembrete
+            OutlinedTextField(
+                value = uiState.reminderDaysBefore,
+                onValueChange = { viewModel.onEvent(VaccineFormEvent.ReminderDaysBeforeChanged(it)) },
+                label = { Text("Avisar quantos dias antes da próxima vacina") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
             )
 
             // Veterinário(opcional)

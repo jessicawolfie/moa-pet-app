@@ -18,7 +18,7 @@ import br.com.moapetapp.data.local.entity.VaccineEntity
         VaccineEntity::class,
         MealEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

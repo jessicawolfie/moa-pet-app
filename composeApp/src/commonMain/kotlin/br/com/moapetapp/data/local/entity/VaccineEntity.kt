@@ -36,6 +36,7 @@ data class VaccineEntity(
     val name: String,
     val appliedDate: LocalDate,
     val nextDoseDate: LocalDate?,
+    val reminderDaysBefore: Int,
     val veterinarian: String?,
     val notes: String?
 )

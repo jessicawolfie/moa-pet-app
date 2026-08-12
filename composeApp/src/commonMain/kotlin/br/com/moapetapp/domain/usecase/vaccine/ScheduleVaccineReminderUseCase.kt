@@ -16,7 +16,6 @@ class ScheduleVaccineReminderUseCase(
     private val clock: Clock = Clock.System,
 ) {
     companion object {
-        private const val DAYS_BEFORE = 5
         private val REMINDER_TIME = LocalTime(hour = 9, minute = 0)
     }
 
@@ -31,7 +30,7 @@ class ScheduleVaccineReminderUseCase(
         
         // 3) Calcula a data do lembrete
         val timeZone = TimeZone.currentSystemDefault()
-        val reminderDate = nextDose.minus(DatePeriod(days = DAYS_BEFORE))
+        val reminderDate = nextDose.minus(DatePeriod(days = vaccine.reminderDaysBefore))
         val reminderInstant = reminderDate.atTime(REMINDER_TIME).toInstant(timeZone)
         
         // 4) Se o instante já passou, não agendar lembrete

@@ -21,6 +21,7 @@ data class VaccineFormUiState(
     val name: String = "",
     val appliedDateEpochDays: Int? = null,
     val nextDoseDateEpochDays: Int? = null,
+    val reminderDaysBefore: String = "5",
     val veterinarian: String = "",
     val notes: String = "",
     val nameError: String? = null,
@@ -35,6 +36,7 @@ sealed interface VaccineFormEvent {
     data class NameChanged(val value: String) : VaccineFormEvent
     data class AppliedDateChanged(val epochDays: Int?) : VaccineFormEvent
     data class NextDoseDateChanged(val epochDays: Int?) : VaccineFormEvent
+    data class ReminderDaysBeforeChanged(val value: String) : VaccineFormEvent
     data class VeterinarianChanged(val value: String) : VaccineFormEvent
     data class NotesChanged(val value: String) : VaccineFormEvent
     data object Save : VaccineFormEvent
@@ -62,8 +64,9 @@ class VaccineFormViewModel(
                 getVaccineByIdUseCase(vaccineId).onSuccess { vaccine ->
                     _uiState.value = _uiState.value.copy(
                         name = vaccine.name,
-                        appliedDateEpochDays = vaccine.appliedDate?.toEpochDays(),
+                        appliedDateEpochDays = vaccine.appliedDate.toEpochDays(),
                         nextDoseDateEpochDays = vaccine.nextDoseDate?.toEpochDays(),
+                        reminderDaysBefore = vaccine.reminderDaysBefore.toString(),
                         veterinarian = vaccine.veterinarian ?: "",
                         notes = vaccine.notes ?: "",
                         isEditMode = true,
@@ -85,6 +88,9 @@ class VaccineFormViewModel(
             is VaccineFormEvent.NextDoseDateChanged ->
                 _uiState.value =
                     _uiState.value.copy(nextDoseDateEpochDays = event.epochDays, dateError = null)
+
+            is VaccineFormEvent.ReminderDaysBeforeChanged ->
+                _uiState.value = _uiState.value.copy(reminderDaysBefore = event.value)
 
             is VaccineFormEvent.VeterinarianChanged ->
                 _uiState.value = _uiState.value.copy(veterinarian = event.value)
@@ -120,6 +126,7 @@ class VaccineFormViewModel(
             name = state.name.trim(),
             appliedDate = LocalDate.fromEpochDays(state.appliedDateEpochDays!!),
             nextDoseDate = state.nextDoseDateEpochDays?.let { LocalDate.fromEpochDays(it) },
+            reminderDaysBefore = state.reminderDaysBefore.toIntOrNull() ?: 5,
             veterinarian = state.veterinarian.trim().ifBlank { null },
             notes = state.notes.trim().ifBlank { null },
         )
